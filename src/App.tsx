@@ -24,12 +24,12 @@ const BottomNavigator = () =>{
       <TabBottomNavigation.Screen name ="HomeTabScreen" component={Home}
       options={{
         title:'Home',
-        tabBarIcon:() => (<Ionicons name='home' coloe='#000' size={24} />)
+        tabBarIcon:() => (<Ionicons name="home" color='#000' size={24} />)
       }}/>
       <TabBottomNavigation.Screen name ="HomeEditorasTabScreen" component={HomeEditoras}
         options={{
-          title:'',
-          tabBarIcon:() => (<Ionicons name='library' coloe='#000' size={24} />)
+          title:'biblioteca',
+          tabBarIcon:() => (<Ionicons name='library' color='#000' size={24} />)
         }}/>
     </TabBottomNavigation.Navigator>
   )
