@@ -7,8 +7,8 @@ import { DataProvider } from "./Context/DataContext";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons'
-// import HomeEditoras from "./Pages/HomeEditoras";
-// import HomeEditora from "./Pages/HomeEditora";
+import HomeEditoras from "./Pages/HomeEditoras";
+import HomeEditora from "./Pages/HomeEditora";
 
 const TabBottomNavigation = createBottomTabNavigator();
 const BottomNavigator = () =>{
