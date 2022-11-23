@@ -16,7 +16,7 @@ const BottomNavigator = () =>{
     <TabBottomNavigation.Navigator
       screenOptions={{
         headerShown:false,
-        tabBarStyle:{backgroundColor: '#ffcc00'},
+        tabBarStyle:{backgroundColor: '#fff'},
         tabBarActiveTintColor:'red',
         tabBarInactiveTintColor:'blue'
       }}
