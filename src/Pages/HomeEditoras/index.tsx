@@ -8,18 +8,123 @@ import {
   TextInput,
   StyleSheet,
   StatusBar,
+  Image,
   SafeAreaView,
   TouchableOpacity,
-  Button
+  Button,
+  ScrollView
 } from 'react-native';
+import {  Card, Title, Paragraph } from 'react-native-paper';
+import { DadosEditoraType } from '../../Models/DadosEditoraType';
+import { DataContext } from '../../Context/DataContext';
 
-const HomeEditoras = () =>{
+
+const Item = ({item, eventoPressionarBotao}) =>{
+  return(
+    <TouchableOpacity style={styles.btnItem}>
+
+    <Image source={{uri: item.urlImagem}} resizeMode = 'contain' style={styles.imgItem} />
+    <Text>{item.nomeEditora}</Text>
+  </TouchableOpacity>
+  )
+}
+
+const CardEditora = ({ item }) => {
+  return(
+  <Card style={styles.cardLivro}>
+    <Card.Title title={item.nomeEditora} />
+    <Card.Cover source={{uri: item.urlImagem}} />
+    <Card.Actions style={{justifyContent:'center'}}>
+    </Card.Actions>
+  </Card>
+  );
+}
+
+const HomeEditoras = ({navigation}) =>{
+
+
+  const [selectedId, setSelectedId] = useState(null)
+  const {dadosUsuario} = useContext(DataContext)
+  const [dadosEditora, setDadosEditora] = useState<DadosEditoraType[]>([])
+
+
+  const getAllEditoras = async () =>{
+    AxiosInstance.get(
+      '/editoras',
+      {headers: {"Authorization" : `Bearer ${dadosUsuario?.token}`}}
+    ).then(resultado =>{
+      console.log('Resultado: ' + JSON.stringify(resultado.data))
+      setDadosEditora(resultado.data)
+    }
+    ).catch((error) =>{
+      console.log('Ocorreu um erro ao recuperar o dados da editora: ' + JSON.stringify(error))
+    })
+  }
+
+  const navigateToEditoraHome = (id:any) => {
+    setSelectedId(id);
+
+    navigation.navigate('HomeEditoraScreen', {
+      editoraId: id,
+    });
+  }
+
+  const renderItem = ({ item }) =>{
     return(
-    <View>
-        <Text>Home Editoras</Text>
-    </View>
+      <Item
+      item={item}
+      eventoPressionarBotao={() => navigateToEditoraHome(item.editora)}
+      />
+    )
+  }
+
+
+
+  useEffect(() =>{
+    getAllEditoras()
+  },[])
+
+    return(
+    <ScrollView style={styles.container}>
+        <FlatList 
+        data={dadosEditora}
+        renderItem={CardEditora}
+        keyExtractor={(item:any)=> item.codigoEditora}
+        
+        />
+    </ScrollView>
     )
     
 }
+
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    flex: 1,
+    marginTop: StatusBar.currentHeight || 0,
+    marginBottom:StatusBar.currentHeight || 0
+    
+  },
+  btnItem:{
+    flexDirection:"column",
+    alignItems:'center',
+    justifyContent:'center', 
+    width:200, 
+    height:200, 
+    marginBottom: 60
+  },
+  imgItem:{
+    flex:3, 
+    width:100, 
+    height:100,
+  },
+  cardLivro: {
+    marginHorizontal: 8,
+    marginBottom:8,
+    padding:10,
+    justifyContent:'center',
+    
+  },
+})
 
 export default HomeEditoras;

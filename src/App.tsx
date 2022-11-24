@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Login from './Pages/Login/index'
 import Home from './Pages/Home'
 import { View, Text } from 'react-native';
@@ -16,20 +16,20 @@ const BottomNavigator = () =>{
     <TabBottomNavigation.Navigator
       screenOptions={{
         headerShown:false,
-        tabBarStyle:{backgroundColor: '#fff'},
-        tabBarActiveTintColor:'red',
-        tabBarInactiveTintColor:'blue'
+        tabBarStyle:{backgroundColor: '#182747'},
+        tabBarActiveTintColor:'#fff',
+        tabBarInactiveTintColor:'#000',
       }}
     >
-      <TabBottomNavigation.Screen name ="HomeTabScreen" component={Home}
+        <TabBottomNavigation.Screen name ="HomeTabScreen" component={Home}
       options={{
         title:'Home',
-        tabBarIcon:() => (<Ionicons name="home" color='#000' size={24} />)
+        tabBarIcon:({focused}) => (<Ionicons name="home" color={focused?"#fff":"#000"} size={24} />)
       }}/>
       <TabBottomNavigation.Screen name ="HomeEditorasTabScreen" component={HomeEditoras}
         options={{
-          title:'biblioteca',
-          tabBarIcon:() => (<Ionicons name='library' color='#000' size={24} />)
+          title:'Editoras',
+          tabBarIcon:({focused}) => (<Ionicons name='library' color={focused?"#fff":"#000"} size={24} />)
         }}/>
     </TabBottomNavigation.Navigator>
   )
@@ -43,9 +43,9 @@ export default () =>{
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen name="BottomNavigatorScreen" component={BottomNavigator}
-          options={{title: "  " , headerStyle:{backgroundColor: '#54b695'}
+          options={{title: "  " , headerStyle:{backgroundColor: '#182747'}
         }} />
-          <Stack.Screen name="Login" component={Login} options={{title: " " , headerStyle:{backgroundColor: '#54b695'}
+          <Stack.Screen name="Login" component={Login} options={{title: " " , headerStyle:{backgroundColor: '#fff'}
            }} />
           <Stack.Screen name="HomeEditora" component={HomeEditora} options={{title: "" , headerStyle:{backgroundColor: '#54b695'}
            }} />
