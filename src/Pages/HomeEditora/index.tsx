@@ -20,6 +20,26 @@ import { DadosEditoraType } from '../../Models/DadosEditoraType';
 const HomeEditora = ({route, navigation}) =>{
     const{id} = route.params
 
+    const {dadosUsuario}=useContext(DataContext)
+    const [dadosEditora, setDadosEditora] = useState<DadosEditoraType>()
+
+
+  const getEditora = async () =>{
+    AxiosInstance.get(
+      `/editoras/${id}`,
+      {headers: {"Authorization" : `Bearer ${dadosUsuario?.token}`}}
+    ).then(resultado=>{
+      console.log('Resultado: ' + JSON.stringify(resultado.data))
+      setDadosEditora(resultado.data)
+    }).catch((error)=>{
+      console.log('Falha ao achar dados da editora: ' + JSON.stringify(error))
+    })
+  }
+
+  useEffect(() => {
+    getEditora()
+  })
+
     console.log(id)
     return(
     <View>
