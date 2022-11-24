@@ -29,18 +29,7 @@ const Item = ({ item, eventoPressionarBotao }) => (
   </TouchableOpacity>
 );
 
-const CardLivro = ({ item }) => {
-  return(
-  <Card style={styles.cardLivro}>
-    <Card.Title title={item.nomeLivro} subtitle={item.editora.nomeEditora} />
-    <Card.Cover source={{uri: item.urlImagem}} />
-    <Card.Actions style={{justifyContent:'center'}}>
-      <Button onPress={() => addFavorite(item)}><Ionicons name='heart-circle' color='#000' size={36} /></Button>
-      <Button onPress={() => addCart(item.codigoLivro)}><Ionicons name='cart' color='#000' size={36} /></Button>
-    </Card.Actions>
-  </Card>
-  );
-}
+
 const addFavorite = (livro:DadosLivroType) => {
   //console.log(`Favoritos: Livro selecionado: ${JSON.stringify(livro)}`);
   incrementLocalData('favoritos', livro);
@@ -116,6 +105,27 @@ const Home = ({navigation}) => {
     setSelectedId(id);
 
     navigation.navigate('HomeEditora', {id:id});
+  }
+
+  const navigateToHomeLivro = (id:any) =>{
+    setSelectedId(id)
+
+    navigation.navigate('HomeLivro', {codigoLivro:id})
+  }
+
+  const CardLivro = ({ item }) => {
+    return(
+    <Card style={styles.cardLivro}>
+      <Card.Title title={item.nomeLivro} subtitle={item.editora.nomeEditora} />
+      <TouchableOpacity onPress={() => navigateToHomeLivro(item.codigoLivro)}>
+      <Card.Cover source={{uri: item.urlImagem}} />
+      </TouchableOpacity>
+      <Card.Actions style={{justifyContent:'center'}}>
+        <Button onPress={() => addFavorite(item)}><Ionicons name='heart-circle' color='#000' size={36} /></Button>
+        <Button onPress={() => addCart(item.codigoLivro)}><Ionicons name='cart' color='#000' size={36} /></Button>
+      </Card.Actions>
+    </Card>
+    );
   }
 
   const renderItem = ({ item }) => {
