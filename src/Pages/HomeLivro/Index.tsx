@@ -17,6 +17,8 @@ import { Card, Button } from 'react-native-paper';
 import { DataContext } from '../../Context/DataContext';
 import { DadosLivroType } from '../../Models/DadosLivroType';
 import { Item } from 'react-native-paper/lib/typescript/components/List/List';
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import { incrementLocalData } from '../../Service/StorageLocalService';
 
 const HomeLivro = ({route, navigation,}) =>{
     const {id} = route.params
@@ -37,11 +39,16 @@ const HomeLivro = ({route, navigation,}) =>{
         })
     }
 
+    const addFavorite = (dadosLivro: DadosLivroType) =>{
+
+        incrementLocalData('favoritos', dadosLivro)
+    }
+
     useEffect(() =>{
         getLivro()
     },[])
 
- const CardLivro = ({ item, navigation }) => {
+ const CardLivro = ({item}) => {
     return(
     <Card>
       <Card.Title title={item.nomeLivro} />
@@ -52,11 +59,26 @@ const HomeLivro = ({route, navigation,}) =>{
     );
   }
 
+  const renderItem = () =>{
+    <View>
+        <Text> render </Text>
+    </View>
+  }
     return(
-        <ScrollView>
-            <Text>Home Livros {id}</Text>
-        </ScrollView>
+        <SafeAreaView>
+            <Card style={styles.container} key={`livro.details${dadosLivro?.codigoLivro}`}>
+                <Card.Title title={dadosLivro?.nomeLivro} subtitle={dadosLivro?.dataLancamento} />
+                <Card.Cover source={{uri: dadosLivro?.urlImagem}} />
+                <Card.Actions>
+                <Button onPress={() => addFavorite(dadosLivro)}>Favoritar</Button>
+                <Button onPress={() => addCart(item.codigoLivro)}>Comprar</Button>
+                </Card.Actions>
+            </Card>
+        </SafeAreaView>
     )
 }
 
+const styles = StyleSheet.create({
+    
+})
 export default HomeLivro
