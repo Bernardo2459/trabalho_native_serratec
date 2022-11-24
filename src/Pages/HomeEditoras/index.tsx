@@ -28,16 +28,7 @@ const Item = ({item, eventoPressionarBotao}) =>{
   )
 }
 
-const CardEditora = ({ item }) => {
-  return(
-  <Card style={styles.cardLivro}>
-    <Card.Title title={item.nomeEditora} />
-    <Card.Cover source={{uri: item.urlImagem}} />
-    <Card.Actions style={{justifyContent:'center'}}>
-    </Card.Actions>
-  </Card>
-  );
-}
+
 
 const HomeEditoras = ({navigation}) =>{
 
@@ -63,9 +54,20 @@ const HomeEditoras = ({navigation}) =>{
   const navigateToEditoraHome = (id:any) => {
     setSelectedId(id);
 
-    navigation.navigate('HomeEditoraScreen', {
-      codigoEditora: id,
-    });
+    navigation.navigate('HomeEditora', {id:id});
+  }
+
+  const CardEditora = ({ item }) => {
+    return(
+    <Card style={styles.cardLivro}>
+      <Card.Title title={item.nomeEditora} />
+      <TouchableOpacity onPress={()=> navigateToEditoraHome}>
+      <Card.Cover source={{uri: item.urlImagem}} />
+      </TouchableOpacity>
+      <Card.Actions style={{justifyContent:'center'}}>
+      </Card.Actions>
+    </Card>
+    );
   }
 
   const renderItem = ({ item }) =>{

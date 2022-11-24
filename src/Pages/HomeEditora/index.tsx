@@ -30,8 +30,6 @@ const Item = ({item}) =>{
   )
 }
 
-
-
 const addFavorite = (livro:DadosLivroType) => {
   //console.log(`Favoritos: Livro selecionado: ${JSON.stringify(livro)}`);
   incrementLocalData('favoritos', livro);
@@ -110,7 +108,7 @@ const HomeEditora = ({route, navigation,}) =>{
 
     return(
     <ScrollView>
-      <Text>  {id} </Text>
+      <Text> {id} </Text>
       <FlatList 
       data={dadosLivro}
       renderItem={CardLivro}
