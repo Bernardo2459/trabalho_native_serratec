@@ -71,7 +71,7 @@ const HomeLivro = ({route, navigation,}) =>{
                 <Card.Cover source={{uri: dadosLivro?.urlImagem}} />
                 <Card.Actions>
                 <Button onPress={() => addFavorite(dadosLivro)}>Favoritar</Button>
-                <Button onPress={() => addCart(item.codigoLivro)}>Comprar</Button>
+                <Button onPress={() => addCart(dadosLivro.codigoLivro)}>Comprar</Button>
                 </Card.Actions>
             </Card>
         </SafeAreaView>
