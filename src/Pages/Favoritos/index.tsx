@@ -11,7 +11,7 @@ const Favoritos = () =>{
     const exibirFavoritos = storeLocalData.bind
 
     const exibirDadosfavoritos = (livro:DadosLivroType) =>{
-        retrieveLocalData('favoritos', )
+        retrieveLocalData(livro)
     }
     
     return(
