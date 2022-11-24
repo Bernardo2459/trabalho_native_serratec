@@ -22,19 +22,32 @@ const incrementLocalData = async (key:string, value:any) => {
   try {
     //recupera os dados da key existentes atualmente
     actualData = await retrieveLocalData(key);
+    console.log(`actualData: ${JSON.stringify(actualData, null, '\t')}`);
+
     //converte os dados, de JSON para objeto Javascript
     actualData = JSON.parse(actualData);
-    //console.log(`actualData: ${JSON.stringify(actualData, null, '\t')}`);
+
+    console.log(`actualData Parsed: ${JSON.stringify(actualData, null, '\t')}`);
     
     if (actualData !== undefined && actualData !== null) {
+      //verifica se há mais de um item já inserido no localstorare (ou seja, se é um array)
       //armazena os dados existentes atualmente no array data
-      data.push(actualData);
+      if(Array.isArray(actualData)){
+        //percorre o array com os dados atuais e insere seu conteudo no array data
+        actualData.map(k => (
+          data.push(k)
+        ));
+      }else{
+        data.push(actualData);
+      }
 
       //transforma os dados recebidos pelo metodo num objeto JS
-      value = JSON.parse(JSON.stringify(value))
+      //value = value))
       
       //adiciona os novos dados, recebidos, no array data, incrementando-os aos existentes atualmente
       data.push(value);
+
+      console.log(`data before save: ${JSON.stringify(data, null, '\t')}`);
 
       //grava todos os dados, os atuais mais os novos, no storage
       storeLocalData(key, data);

@@ -1,13 +1,18 @@
 import React, {useState} from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { DadosLivroType } from '../../Models/DadosLivroType';
-import { storeLocalData } from '../../Service/StorageLocalService';
+import { retrieveLocalData, storeLocalData } from '../../Service/StorageLocalService';
 
 const Favoritos = () =>{
 
     const [livro, setlivro] = useState()
+    const [dadosLivros, setDadosLivros ] = useState<DadosLivroType[]>([])
 
     const exibirFavoritos = storeLocalData.bind
+
+    const exibirDadosfavoritos = (livro:DadosLivroType) =>{
+        retrieveLocalData('favoritos', )
+    }
     
     return(
         <View>
@@ -21,7 +26,7 @@ const styles = StyleSheet.create ({
         justifyContent:'center',
         flexDirection:"row",
         alignItems:'center',
-}
+    }
 })
 
 export default Favoritos;
