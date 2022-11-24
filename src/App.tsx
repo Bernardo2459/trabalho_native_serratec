@@ -10,6 +10,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import HomeEditoras from "./Pages/HomeEditoras";
 import HomeEditora from "./Pages/HomeEditora";
 import HomeLivro from "./Pages/HomeLivro/Index";
+import Favoritos from "./Pages/Favoritos";
 
 const TabBottomNavigation = createBottomTabNavigator();
 const BottomNavigator = () =>{
@@ -27,6 +28,12 @@ const BottomNavigator = () =>{
         title:'Home',
         tabBarIcon:({focused}) => (<Ionicons name="home" color={focused?"#fff":"#dd1a1a"} size={24} />)
       }}/>
+      <TabBottomNavigation.Screen name="Favoritos" component={Favoritos} 
+      options={{
+        title:'Favoritos',
+        tabBarIcon:({focused}) => (<Ionicons name= 'heart-outline' color={focused?"#fff":"#dd1a1a"} size={24} />)
+      }}
+      />
       <TabBottomNavigation.Screen name ="HomeEditorasTabScreen" component={HomeEditoras}
         options={{
           title:'Editoras',
