@@ -9,6 +9,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import HomeEditoras from "./Pages/HomeEditoras";
 import HomeEditora from "./Pages/HomeEditora";
+import HomeLivro from "./Pages/HomeLivro/Index";
 
 const TabBottomNavigation = createBottomTabNavigator();
 const BottomNavigator = () =>{
@@ -47,6 +48,8 @@ export default () =>{
         }} />
           <Stack.Screen name="Login" component={Login} options={{title: " " , headerShown: false}} />
           <Stack.Screen name="HomeEditora" component={HomeEditora} options={{title: "" , headerStyle:{backgroundColor: '#54b695'}
+           }} />
+           <Stack.Screen name="HomeLivro" component={HomeLivro} options={{title: "" , headerStyle:{backgroundColor: '#54b695'}
            }} />
         </Stack.Navigator>
       </NavigationContainer>

@@ -11,10 +11,9 @@ import {
   Image,
   SafeAreaView,
   TouchableOpacity,
-  Button,
   ScrollView
 } from 'react-native';
-import {  Card, Title, Paragraph } from 'react-native-paper';
+import {  Card, Button, Title, Paragraph } from 'react-native-paper';
 import { DadosEditoraType } from '../../Models/DadosEditoraType';
 import { DataContext } from '../../Context/DataContext';
 
@@ -65,7 +64,7 @@ const HomeEditoras = ({navigation}) =>{
     setSelectedId(id);
 
     navigation.navigate('HomeEditoraScreen', {
-      editoraId: id,
+      codigoEditora: id,
     });
   }
 
