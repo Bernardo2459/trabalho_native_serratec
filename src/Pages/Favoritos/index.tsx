@@ -21,7 +21,7 @@ const styles = StyleSheet.create ({
         justifyContent:'center',
         flexDirection:"row",
         alignItems:'center',
-}
+    }
 })
 
 export default Favoritos;

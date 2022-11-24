@@ -4,13 +4,12 @@ import { Dimensions, StyleSheet } from 'react-native';
 export const styles =  StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#7e65bd'
+      backgroundColor: '#7054b6'
     },
     cabecalho: {
       flex: 1,
       justifyContent: 'flex-end',
-      alignItems: 'center',
-      marginBottom: 50
+      alignItems: 'center'
     },
     titulo: {
       fontSize: 30,
@@ -20,8 +19,7 @@ export const styles =  StyleSheet.create({
     conteudo: {
       flex: 1,
       justifyContent: 'center',
-      alignItems: 'center',
-      marginBottom: 40
+      alignItems: 'center'
     },
     input: {
         borderWidth: 2,
@@ -37,7 +35,7 @@ export const styles =  StyleSheet.create({
       alignItems: 'center'
     },
     botao: {
-        backgroundColor: '#32127c',
+        backgroundColor: '#190152',
         width: Dimensions.get('window').width * 0.9,
         padding: 20,
         borderRadius: 10,
