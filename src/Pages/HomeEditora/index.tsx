@@ -52,7 +52,7 @@ const HomeEditora = ({route, navigation,}) =>{
     const navigateToHomeLivro = (id:any) =>{
       setSelectedId(id)
 
-      navigation.navigate('HomeLivro', {codigoLivro:id})
+      navigation.navigate('HomeLivro', {id:id})
     }
 
     const CardLivro = ({item}) =>{
