@@ -56,6 +56,7 @@ const Home = ({navigation}) => {
   const [dadosEditora, setDadosEditora] = useState<DadosEditoraType[]>([]);
   const [dadosLivro, setDadosLivro] = useState<DadosLivroType[]>([]);
   const [selectedId, setSelectedId] = useState(null);
+  const [selectedNome, setSelectedNome] = useState(null)
   const [selectedLivro, setSelectedLivro] = useState(null);
 
   useEffect(() => {
@@ -111,12 +112,10 @@ const Home = ({navigation}) => {
     });
   }
 
-  const navigateToEditoraHome = (id:any) => {
+  const navigateToEditoraHome = (id:any, nomeEditora:any) => {
     setSelectedId(id);
 
-    navigation.navigate('HomeEditora', {
-      editoraId: id
-    });
+    navigation.navigate('HomeEditora', {id:id});
   }
 
   const renderItem = ({ item }) => {
