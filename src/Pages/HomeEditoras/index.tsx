@@ -57,11 +57,11 @@ const HomeEditoras = ({navigation}) =>{
     navigation.navigate('HomeEditora', {id:id});
   }
 
-  const CardEditora = ({ item }) => {
+  const CardEditora = ({ item, navigation }) => {
     return(
     <Card style={styles.cardLivro}>
       <Card.Title title={item.nomeEditora} />
-      <TouchableOpacity onPress={()=> navigateToEditoraHome}>
+      <TouchableOpacity onPress={()=> navigateToEditoraHome(item.codigoEditora)}>
       <Card.Cover source={{uri: item.urlImagem}} />
       </TouchableOpacity>
       <Card.Actions style={{justifyContent:'center'}}>
