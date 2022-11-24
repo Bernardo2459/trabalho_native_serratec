@@ -1,32 +1,18 @@
-import axios from 'axios';
-import React, { useContext, useEffect, useState, } from 'react';
-import AxiosInstance from '../../Api/AxiosInstance';
+import React from 'react';
 import {
   View,
   Text,
-  FlatList,
-  TextInput,
-  StyleSheet,
-  StatusBar,
-  SafeAreaView,
-  TouchableOpacity,
-  Button
 } from 'react-native';
 
-import { DataContext } from '../../Context/DataContext';
+const HomeEditora = ({ route, navigation }) => {
+  const { editoraId } = route.params;
+  //console.log(`Editora Id: ${editoraId}`);
 
-import { DadosEditoraType } from '../../Models/DadosEditoraType';
-
-const HomeEditora = ({route, navigation}) =>{
-    const{id} = route.params
-
-    console.log(id)
-    return(
+  return(
     <View>
-        <Text>Home Editoras {id}</Text>
+      <Text>Home da Editora {editoraId}</Text>
     </View>
-    )
-    
+  );
 }
 
 export default HomeEditora;

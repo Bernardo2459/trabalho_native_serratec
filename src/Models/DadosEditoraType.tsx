@@ -1,5 +1,5 @@
 export type DadosEditoraType = {
-    codigoEditora: 0,
+    codigoEditora: number,
     nomeEditora:string,
     nomeImagem:string,
     nomeArquivoImagem:string,

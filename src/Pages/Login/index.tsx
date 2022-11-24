@@ -1,7 +1,4 @@
 import React, { useContext, useEffect, useState, } from 'react';
-import AxiosInstance from '../../Api/AxiosInstance';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
   View,
   Text,
@@ -12,6 +9,10 @@ import {
 } from 'react-native';
 
 import { styles } from './style';
+import AxiosInstance from '../../Api/AxiosInstance';
+
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
 
 //Importando o DataContext
 import { DataContext } from '../../Context/DataContext';
