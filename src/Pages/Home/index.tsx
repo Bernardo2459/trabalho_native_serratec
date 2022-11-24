@@ -12,13 +12,13 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Button, Card, Title, Paragraph } from 'react-native-paper';
 
-import AxiosInstance from '../../Api/AxiosInstance';
+import AxiosInstance from '../../api/AxiosInstance';
 
 //Importando o Contexto de Data
-import { DataContext } from '../../Context/DataContext';
-import { DadosEditoraType }from '../../Models/DadosEditoraType';
-import { DadosLivroType } from '../../Models/DadosLivroType';
-import { storeLocalData, incrementLocalData, retrieveLocalData, removeLocalData } from '../../service/LocalStorageService'
+import { DataContext } from '../../context/DataContext';
+import { DadosEditoraType } from '../../models/DadosEditoraType';
+import { DadosLivroType } from '../../models/DadosLivroType';
+import { storeLocalData, incrementLocalData, retrieveLocalData, removeLocalData } from '../../services/LocalStorageService';
 
 const Item = ({ item, eventoPressionarBotao }) => (
   <TouchableOpacity onPress={eventoPressionarBotao} 
@@ -42,7 +42,7 @@ const CardLivro = ({ item }) => {
   );
 }
 const addFavorite = (livro:DadosLivroType) => {
-  //console.log(`Favoritos: Livro selecionado: ${JSON.stringify(livro)}`);
+  console.log(`Favoritos: Livro selecionado: ${JSON.stringify(livro)}`);
   incrementLocalData('favoritos', livro);
 }
 

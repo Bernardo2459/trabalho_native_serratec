@@ -1,64 +1,63 @@
-import React from "react";
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Login from './Pages/Login/index'
-import Home from './Pages/Home'
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import HomeEditoras from "./Pages/HomeEditoras";
-import HomeEditora from "./Pages/HomeEditora";
-import Favoritos from "./Pages/Favoritos";
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Login from './pages/Login';
+import Home from './pages/Home';
+import HomeEditoras from './pages/HomeEditoras';
+import HomeEditora from './pages/HomeEditora';
+import Favoritos from './pages/Favoritos';
 
 //Importando o provedor de contexto do DataContext
-import { DataProvider } from "./Context/DataContext";
+import { DataProvider } from './context/DataContext';
 
 const TabBottomNavigation = createBottomTabNavigator();
-const BottomNavigator = () =>{
-  return(
-    <TabBottomNavigation.Navigator
+const BottomNavigator = () => {
+  return (
+    <TabBottomNavigation.Navigator 
       screenOptions={{
         headerShown:false,
-        tabBarStyle:{backgroundColor: '#ffcc00'},
+        tabBarStyle:{backgroundColor: '#ffcc00', padding: 6},
         tabBarLabelStyle:{fontSize: 14},
-        tabBarActiveTintColor:'red',
-        tabBarInactiveTintColor:'blue'
+        tabBarActiveTintColor: 'black',
+        tabBarInactiveTintColor: '#009999'
       }}
     >
-      <TabBottomNavigation.Screen name ="HomeTabScreen" component={Home}
-      options={{
-        title:'Home',
-        tabBarIcon:() => (<Ionicons name="home" color='#000' size={24} />)
-      }}/>
-      <TabBottomNavigation.Screen name ="HomeEditorasTabScreen" component={HomeEditoras}
+      <TabBottomNavigation.Screen name="HomeTabScreen" component={Home}
         options={{
-          title:'biblioteca',
-          tabBarIcon:() => (<Ionicons name='library' color='#000' size={24} />)
-        }}/>
-        <TabBottomNavigation.Screen name ="FavoritosTabScreen" component={Favoritos}
-      options={{
-        title:'Favoritos',
-        tabBarIcon:() => (<Ionicons name="heart" color='#000' size={24} />)
-      }}/>
+          title:'Home',
+          tabBarIcon: () => (<Ionicons name='home' color='#000' size={24} />)
+        }}
+      />
+      <TabBottomNavigation.Screen name="HomeEditorasTabScreen" component={HomeEditoras}
+        options={{
+          title:'Home Editoras',
+          tabBarIcon: () => (<Ionicons name='library' color='#000' size={24} />)
+        }}
+      />
+      <TabBottomNavigation.Screen name="FavoritosTabScreen" component={Favoritos}
+        options={{
+          title:'Favoritos',
+          tabBarIcon: () => (<Ionicons name='library' color='#000' size={24} />)
+        }}
+      />
     </TabBottomNavigation.Navigator>
-  )
+  );
 }
 
 const Stack = createNativeStackNavigator();
-
-const App = () =>{
-  return(
+const App = () => {
+  return (
     <DataProvider>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="LoginScreen">
-          <Stack.Screen name="LoginScreen" component={Login} options={{title: " " , headerStyle:{backgroundColor: '#54b695'}
-           }} />
-          <Stack.Screen name="BottomNavigatorScreen" component={BottomNavigator}
-          options={{title: "  " , headerStyle:{backgroundColor: '#54b695'}
-        }} />
-          <Stack.Screen name="HomeEditoraScreen" component={HomeEditora} options={{title: "" , headerStyle:{backgroundColor: '#54b695'}
-           }} />
-           <Stack.Screen name="FavoritosScreen" component={Favoritos} options={{title: "" , headerStyle:{backgroundColor: '#54b695'}
-           }} />
+          <Stack.Screen name="LoginScreen" component={Login} options={{ headerShown: false }} />
+          <Stack.Screen name="BottomNavigatorScreen" options={{
+            title:'Home' }} 
+            component={BottomNavigator} 
+          />
+          <Stack.Screen name="HomeEditoraScreen" component={HomeEditora} />
         </Stack.Navigator>
       </NavigationContainer>
     </DataProvider>
