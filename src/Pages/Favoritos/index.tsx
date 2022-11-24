@@ -7,7 +7,7 @@ const Favoritos = () =>{
 
     const [livro, setlivro] = useState()
 
-    const exibirFavoritos = storeLocalData.bind.
+    const exibirFavoritos = storeLocalData.bind
     
     return(
         <View>
