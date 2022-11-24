@@ -59,7 +59,7 @@ const HomeEditora = ({route, navigation,}) =>{
       return(
         <Card style={styles.cardLivro}>
           <Card.Title title={item.nomeLivro} />
-          <TouchableOpacity onPress={() => navigateToHomeLivro}>
+          <TouchableOpacity onPress={() => navigateToHomeLivro(item.codigoLivro)}>
           <Card.Cover  source={{uri: item.urlImagem}} />
           </TouchableOpacity>
           <Card.Actions style={{justifyContent:'center'}}>
