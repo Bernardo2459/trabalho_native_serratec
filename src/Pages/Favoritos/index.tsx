@@ -76,7 +76,7 @@ const Favoritos = () =>{
 
     useEffect(() => {
         handleFavoritos();
-    },[]);
+    });
 
     return(
     <View>
