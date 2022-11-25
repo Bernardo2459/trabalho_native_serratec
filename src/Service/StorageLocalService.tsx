@@ -79,6 +79,30 @@ const removeLocalData = async (key:string) => {
   }
 }
 
+const removeFromFavoritosByKeyAndValue = async (key:string, codigoLivro:any) =>{
+  var arrayJsonFavoritos:any = null;
+  var arrayJsFavoritos = [];
+  var arrayJsAlteradoFavoritos = [];
+  try {
+    //recupera os dados da key existentes atualmente
+    arrayJsonFavoritos = await retrieveLocalData(key);
+
+    //converte os dados de JSON para objeto Javascript
+    arrayJsFavoritos = JSON.parse(arrayJsonFavoritos);
+
+    //Percorre o array JS, filtrando o seu conteúdo e criando um novo array sem
+    //  o elemento do array que contem o codigoLivro igual ao fornecido ao metodo
+    arrayJsAlteradoFavoritos = arrayJsFavoritos.filter(function(e){
+      return e.codigoLivro !== codigoLivro;
+    })
+
+    //salvar o array filtrado, sem o item removido
+    storeLocalData(key, arrayJsAlteradoFavoritos);
+  } catch (error) {
+    console.log(`Erro ao remover dados (key: ${key}) com a valor do codigo do livro ${codigoLivro} do LocalStorage: ${error}`);
+  }
+}
+
 const clearStorage = async () => {
   try {
       await EncryptedStorage.clear();

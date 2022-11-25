@@ -7,6 +7,7 @@ import {
   StyleSheet,
   StatusBar,
   Image,
+  SafeAreaView,
   ScrollView
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -152,7 +153,8 @@ const Home = ({navigation}) => {
         renderItem={CardLivro}
         keyExtractor={(item, indice) => indice}
         extraData={setSelectedLivro}
-        horizontal={false}
+        horizontal={true}
+        
       />
     </ScrollView>
   );

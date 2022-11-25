@@ -86,14 +86,14 @@ const HomeEditoras = ({navigation}) =>{
   },[])
 
     return(
-    <ScrollView style={styles.container}>
+    <SafeAreaView style={styles.container}>
         <FlatList 
         data={dadosEditora}
         renderItem={CardEditora}
         keyExtractor={(item:any)=> item.codigoEditora}
         
         />
-    </ScrollView>
+    </SafeAreaView>
     )
     
 }

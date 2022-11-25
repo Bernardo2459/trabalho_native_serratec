@@ -93,13 +93,7 @@ const HomeEditora = ({route, navigation,}) =>{
       })
     }
 
-    const renderItem = ({item}) =>{
-      return(
-        <Item 
-        item={item}
-        />
-      )
-    }
+    
 
   useEffect(() => {
     getLivros()
@@ -107,15 +101,14 @@ const HomeEditora = ({route, navigation,}) =>{
   },[])
 
     return(
-    <ScrollView>
-      <Text> {id} </Text>
+    <SafeAreaView>
       <FlatList 
       data={dadosLivro}
       renderItem={CardLivro}
       keyExtractor={(item, indicie)=> indicie}
       extraData={setSelectedLivro}
       />
-    </ScrollView>
+    </SafeAreaView>
     )
     
 }
