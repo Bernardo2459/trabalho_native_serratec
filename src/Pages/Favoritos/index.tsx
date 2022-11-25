@@ -10,6 +10,10 @@ const CardLivro = ({ item }) => {
   <Card style={styles.cardLivro}>
     <Card.Title title={item?.nomeLivro} subtitle={item.editora.nomeEditora} />
     <Card.Cover source={{uri: item?.urlImagem}} />
+    <Card.Content >
+      <Title>Autor: {item.autor.nomeAutor}</Title>
+      <Title>Data de lançamento: {item.dataLancamento}</Title>
+    </Card.Content>
     <Card.Actions style={{justifyContent:'center'}}>
       <Button onPress={() => removeFromFavoritosByKeyAndValue('favoritos', item.codigoLivro)}><Ionicons name='trash-outline' color='#000' size={36} /></Button>
     </Card.Actions>
