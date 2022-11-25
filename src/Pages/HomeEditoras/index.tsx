@@ -11,6 +11,7 @@ import {
   Image,
   SafeAreaView,
   TouchableOpacity,
+  ActivityIndicator,
   ScrollView
 } from 'react-native';
 import {  Card, Button, Title, Paragraph } from 'react-native-paper';
@@ -36,7 +37,7 @@ const HomeEditoras = ({navigation}) =>{
   const [selectedId, setSelectedId] = useState(null)
   const {dadosUsuario} = useContext(DataContext)
   const [dadosEditora, setDadosEditora] = useState<DadosEditoraType[]>([])
-
+  const [loading, setLoading] = useState(true)
 
   const getAllEditoras = async () =>{
     AxiosInstance.get(
@@ -45,9 +46,13 @@ const HomeEditoras = ({navigation}) =>{
     ).then(resultado =>{
       console.log('Resultado: ' + JSON.stringify(resultado.data))
       setDadosEditora(resultado.data)
+      if(resultado.status === 200){
+        setLoading(false)
+      }
     }
     ).catch((error) =>{
       console.log('Ocorreu um erro ao recuperar o dados da editora: ' + JSON.stringify(error))
+      setLoading(false)
     })
   }
 
@@ -87,12 +92,21 @@ const HomeEditoras = ({navigation}) =>{
 
     return(
     <SafeAreaView style={styles.container}>
+      {loading ? (
+        <ActivityIndicator
+        size="large"
+        color={"blue"}
+        animating={true}
+        style={{alignSelf:'center', 
+        justifyContent:'center', 
+        position:'absolute'}}
+        />
+      ) : (
         <FlatList 
         data={dadosEditora}
         renderItem={CardEditora}
         keyExtractor={(item:any)=> item.codigoEditora}
-        
-        />
+        />)}
     </SafeAreaView>
     )
     

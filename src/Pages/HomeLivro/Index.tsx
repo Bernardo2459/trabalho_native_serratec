@@ -10,10 +10,11 @@ import {
   StyleSheet,
   StatusBar,
   SafeAreaView,
+  ActivityIndicator,
   Image,
   TouchableOpacity,
 } from 'react-native';
-import { Card, Button } from 'react-native-paper';
+import { Card, Button, Title } from 'react-native-paper';
 import { DataContext } from '../../Context/DataContext';
 import { DadosLivroType } from '../../Models/DadosLivroType';
 import { Item } from 'react-native-paper/lib/typescript/components/List/List';
@@ -26,6 +27,7 @@ const HomeLivro = ({route, navigation,}) =>{
     console.log(id)
     const {dadosUsuario} = useContext(DataContext)
     const[dadosLivro, setDadosLivro] = useState<DadosLivroType>()
+    const [loading,  setLoading] = useState(true)
 
     const getLivro = async () =>{
         AxiosInstance.get(
@@ -34,8 +36,12 @@ const HomeLivro = ({route, navigation,}) =>{
         ).then(resultado =>{
             console.log('Resultado dos dados do livro: ' + JSON.stringify(resultado.data))
             setDadosLivro(resultado.data)
+            if(resultado.status === 200){
+                setLoading(false)
+            }
         }).catch((error)=>{
             console.log('Erro ao pegar as informações da api: ' + JSON.stringify(error))
+            setLoading(false)
         })
     }
 
@@ -51,11 +57,11 @@ const HomeLivro = ({route, navigation,}) =>{
  const CardLivro = ({item}) => {
     return(
     <Card>
-      <Card.Title title={item.nomeLivro} />
-      <Card.Cover source={{uri: item.urlImagem}} />
-      <Card.Actions style={{justifyContent:'center'}}>
-      </Card.Actions>
-    </Card>
+        <Card.Title title={item.nomeLivro} />
+        <Card.Cover source={{uri: item.urlImagem}} />
+        <Card.Actions style={{justifyContent:'center'}}>
+        </Card.Actions>
+   </Card>
     );
   }
 
@@ -66,19 +72,43 @@ const HomeLivro = ({route, navigation,}) =>{
   }
     return(
         <SafeAreaView>
+           {loading ? (
+            <SafeAreaView style={styles.container}>
+            <ActivityIndicator
+            size="large"
+            color={"blue"}
+            animating={true}
+            style={{alignSelf:'center', 
+            justifyContent:'center', 
+            alignContent:'center',
+            position:'absolute'}}
+            />
+            </SafeAreaView>
+           ) : (
             <Card style={styles.container} key={`livro.details${dadosLivro?.codigoLivro}`}>
                 <Card.Title title={dadosLivro?.nomeLivro} subtitle={dadosLivro?.dataLancamento} />
                 <Card.Cover source={{uri: dadosLivro?.urlImagem}} />
+                <Card.Content>
+                    <Text style={styles.descricao}>Melhor mangá</Text>
+                </Card.Content>
                 <Card.Actions>
                 <Button onPress={() => addFavorite(dadosLivro)}>Favoritar</Button>
                 <Button onPress={() => addCart(dadosLivro.codigoLivro)}>Comprar</Button>
                 </Card.Actions>
-            </Card>
+            </Card>)}
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
-    
+    container:{
+    height:500,
+    display:'flex',
+    justifyContent:'center',
+    alignContent:'center'
+    },
+    descricao:{
+    fontSize:20
+    }
 })
 export default HomeLivro

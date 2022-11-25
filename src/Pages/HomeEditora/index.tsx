@@ -12,6 +12,7 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import { Card, Button } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -48,6 +49,7 @@ const HomeEditora = ({route, navigation,}) =>{
     const [selectedId, setSelectedId] = useState(null)
     const [dadosEditora, setDadosEditora] = useState<DadosEditoraType>()
     const [dadosLivro, setDadosLivro] = useState<DadosLivroType[]>([])
+    const [loading, setLoading] = useState(true)
 
     const navigateToHomeLivro = (id:any) =>{
       setSelectedId(id)
@@ -77,6 +79,9 @@ const HomeEditora = ({route, navigation,}) =>{
       ).then(resultado =>{
         console.log('Resultado dados editora: ' + JSON.stringify(resultado.data))
         setDadosEditora(resultado.data)
+        if(resultado.status === 200){
+          setLoading(false)
+        }
       }).catch((error)=>{
         console.log('Erro ao achar os dados de editora: ' + JSON.stringify(error))
       })
@@ -102,12 +107,22 @@ const HomeEditora = ({route, navigation,}) =>{
 
     return(
     <SafeAreaView>
+      {loading ? (
+        <ActivityIndicator
+        size="large"
+        color={"blue"}
+        animating={true}
+        style={{alignSelf:'center', 
+        justifyContent:'center', 
+        position:'absolute'}}
+        />
+      ): (
       <FlatList 
       data={dadosLivro}
       renderItem={CardLivro}
       keyExtractor={(item, indicie)=> indicie}
       extraData={setSelectedLivro}
-      />
+      />)}
     </SafeAreaView>
     )
     

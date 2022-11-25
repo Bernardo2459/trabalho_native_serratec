@@ -8,6 +8,7 @@ import {
   StatusBar,
   Image,
   SafeAreaView,
+  ActivityIndicator,
   ScrollView
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -48,6 +49,7 @@ const Home = ({navigation}) => {
   const [selectedId, setSelectedId] = useState(null);
   const [selectedNome, setSelectedNome] = useState(null)
   const [selectedLivro, setSelectedLivro] = useState(null);
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const stackNavigator = navigation.getParent();
@@ -65,6 +67,9 @@ const Home = ({navigation}) => {
     ).then( resultado => {
       console.log('Dados das Editoras: ' + JSON.stringify(resultado.data));
       setDadosEditora(resultado.data);
+      if(resultado.status === 200) {
+        setLoading(false)
+      }
     }).catch((error) => {
       console.log('Ocorreu um erro ao recuperar os dados das Editoras: ' + JSON.stringify(error));
     });
@@ -140,22 +145,34 @@ const Home = ({navigation}) => {
 
   return(
     <ScrollView style={styles.container}>
-      <FlatList
-        data={dadosEditora}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.codigoEditora}
-        extraData={selectedId}
-        horizontal={true}
-      />
-      <Text style={styles.sectionTitle}>Livros</Text>
-      <FlatList
-        data={dadosLivro}
-        renderItem={CardLivro}
-        keyExtractor={(item, indice) => indice}
-        extraData={setSelectedLivro}
-        horizontal={true}
-        
-      />
+      { loading ? (
+     <ScrollView>
+     <ActivityIndicator
+        size="large"
+        color={"blue"}
+        animating={true}
+        style={{alignSelf:'center', 
+        justifyContent:'center', 
+        position:'absolute'}}
+        />
+     </ScrollView>) : (
+       <ScrollView>
+       <FlatList
+       data={dadosEditora}
+       renderItem={renderItem}
+       keyExtractor={(item) => item.codigoEditora}
+       extraData={selectedId}
+       horizontal={true}
+       />
+       <Text style={styles.sectionTitle}>Livros</Text>
+       <FlatList
+       data={dadosLivro}
+       renderItem={CardLivro}
+       keyExtractor={(item, indice) => indice}
+       extraData={setSelectedLivro}
+       horizontal={true}
+       />
+       </ScrollView>)}
     </ScrollView>
   );
 }
