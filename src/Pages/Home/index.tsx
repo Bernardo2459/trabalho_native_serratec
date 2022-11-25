@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   },
   imgItem:{
     flex:3, 
-    width:100, 
+    width:200, 
     height:100,
   }
 });
