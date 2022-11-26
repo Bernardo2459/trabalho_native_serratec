@@ -54,9 +54,9 @@ export default () =>{
           options={{title: "  " , headerStyle:{backgroundColor: '#182747'}
         }} />
           <Stack.Screen name="Login" component={Login} options={{title: " " , headerShown: false}} />
-          <Stack.Screen name="HomeEditora" component={HomeEditora} options={{title: "" , headerStyle:{backgroundColor: '#54b695'}
+          <Stack.Screen name="HomeEditora" component={HomeEditora} options={{title: "Livros da Editora" , headerStyle:{backgroundColor: '#182747'}
            }} />
-           <Stack.Screen name="HomeLivro" component={HomeLivro} options={{title: "" , headerStyle:{backgroundColor: '#54b695'}
+           <Stack.Screen name="HomeLivro" component={HomeLivro} options={{title: "Livro" , headerStyle:{backgroundColor: '#182747'}
            }} />
         </Stack.Navigator>
       </NavigationContainer>

@@ -1,25 +1,24 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {
-  View,
   Text,
   TouchableOpacity,
   FlatList,
   StyleSheet,
   StatusBar,
   Image,
-  SafeAreaView,
+  ActivityIndicator,
   ScrollView
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Button, Card, Title, Paragraph } from 'react-native-paper';
+import { Button, Card} from 'react-native-paper';
 
 import AxiosInstance from '../../Api/AxiosInstance';
 
-//Importando o Contexto de Data
+
 import { DataContext } from '../../Context/DataContext';
 import { DadosEditoraType } from '../../Models/DadosEditoraType';
 import { DadosLivroType } from '../../Models/DadosLivroType';
-import { storeLocalData, incrementLocalData, retrieveLocalData, removeLocalData } from '../../Service/StorageLocalService';
+import { incrementLocalData } from '../../Service/StorageLocalService';
 
 const Item = ({ item, eventoPressionarBotao }) => (
   <TouchableOpacity onPress={eventoPressionarBotao} 
@@ -32,7 +31,6 @@ const Item = ({ item, eventoPressionarBotao }) => (
 
 
 const addFavorite = (livro:DadosLivroType) => {
-  //console.log(`Favoritos: Livro selecionado: ${JSON.stringify(livro)}`);
   incrementLocalData('favoritos', livro);
 }
 
@@ -48,6 +46,7 @@ const Home = ({navigation}) => {
   const [selectedId, setSelectedId] = useState(null);
   const [selectedNome, setSelectedNome] = useState(null)
   const [selectedLivro, setSelectedLivro] = useState(null);
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const stackNavigator = navigation.getParent();
@@ -59,24 +58,29 @@ const Home = ({navigation}) => {
   },[]);
 
   const getAllEditoras = async () => {
+    setLoading(true)
     AxiosInstance.get(
       '/editoras',
       {headers: {"Authorization" : `Bearer ${dadosUsuario?.token}`}}
     ).then( resultado => {
       console.log('Dados das Editoras: ' + JSON.stringify(resultado.data));
       setDadosEditora(resultado.data);
+      if(resultado.status === 200) {
+        setLoading(false)
+      }
     }).catch((error) => {
       console.log('Ocorreu um erro ao recuperar os dados das Editoras: ' + JSON.stringify(error));
     });
   }
 
   const getAllLivros = async () => {
+    setLoading(true)
     AxiosInstance.get(
       '/livros',
       {headers: {"Authorization" : `Bearer ${dadosUsuario?.token}`}}
     ).then( resultado => {
-      //console.log('Dados dos Livros: ' + JSON.stringify(resultado.data));
       setDadosLivro([]);
+      setLoading(false)
       let arrayLivros = resultado.data;
       arrayLivros.map(key => (
         setDadosLivro(current => [...current, {
@@ -119,7 +123,7 @@ const Home = ({navigation}) => {
     <Card style={styles.cardLivro}>
       <Card.Title title={item.nomeLivro} subtitle={item.editora.nomeEditora} />
       <TouchableOpacity onPress={() => navigateToHomeLivro(item.codigoLivro)}>
-      <Card.Cover source={{uri: item.urlImagem}} />
+      <Card.Cover source={{uri: item.urlImagem}} style={styles.imgCard} />
       </TouchableOpacity>
       <Card.Actions style={{justifyContent:'center'}}>
         <Button onPress={() => addFavorite(item)}><Ionicons name='heart-circle' color='#000' size={36} /></Button>
@@ -132,38 +136,68 @@ const Home = ({navigation}) => {
   const renderItem = ({ item }) => {
     return (
       <Item
-        item={item}
+        item={item} 
         eventoPressionarBotao={() => navigateToEditoraHome(item.codigoEditora)}
       />
     );
   };
 
   return(
-    <ScrollView style={styles.container}>
-      <FlatList
+    <ScrollView>
+      {!loading ? (
+        <FlatList 
         data={dadosEditora}
         renderItem={renderItem}
         keyExtractor={(item) => item.codigoEditora}
         extraData={selectedId}
         horizontal={true}
-      />
-      <Text style={styles.sectionTitle}>Livros</Text>
-      <FlatList
+        />
+      ) : (
+        <ActivityIndicator 
+          size="large"
+          color={"blue"}
+          animating={true}
+          style={styles.load1}
+          />
+      )} 
+      {!loading ? (
+        <FlatList 
         data={dadosLivro}
         renderItem={CardLivro}
         keyExtractor={(item, indice) => indice}
         extraData={setSelectedLivro}
         horizontal={true}
-        
-      />
+        />
+      ) : (
+        <ActivityIndicator 
+          size="large"
+          color={"blue"}
+          animating={true}
+          style={styles.load2}
+          />
+      )}
     </ScrollView>
-  );
+  )
 }
+
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
+  },
+  load1:{
+    marginTop: 100,
+    alignContent:'center',
+    display:'flex',
+    justifyContent:'flex-end'
+  },
+  load2:{
+    marginTop: 300,
+    alignContent:'center',
+    display:'flex',
+    justifyContent:'flex-end'
   },
   item: {
     marginHorizontal: 8,
@@ -179,7 +213,7 @@ const styles = StyleSheet.create({
   },
   cardLivro: {
     marginHorizontal: 8,
-    padding:10,
+    // padding:10,
     justifyContent:'center',
   },
   sectionTitle: {
@@ -202,8 +236,13 @@ const styles = StyleSheet.create({
   },
   imgItem:{
     flex:3, 
-    width:100, 
+    width:200, 
     height:100,
+  },
+  imgCard:{
+    flex:3, 
+    width:200, 
+    height:200,
   }
 });
 

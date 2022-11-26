@@ -1,19 +1,16 @@
-import axios from 'axios';
 import React, { useContext, useEffect, useState, } from 'react';
 import AxiosInstance from '../../Api/AxiosInstance';
 import {
-  View,
   Text,
   FlatList,
-  TextInput,
   StyleSheet,
   StatusBar,
   Image,
   SafeAreaView,
   TouchableOpacity,
-  ScrollView
+  ActivityIndicator,
 } from 'react-native';
-import {  Card, Button, Title, Paragraph } from 'react-native-paper';
+import { Card } from 'react-native-paper';
 import { DadosEditoraType } from '../../Models/DadosEditoraType';
 import { DataContext } from '../../Context/DataContext';
 
@@ -36,18 +33,23 @@ const HomeEditoras = ({navigation}) =>{
   const [selectedId, setSelectedId] = useState(null)
   const {dadosUsuario} = useContext(DataContext)
   const [dadosEditora, setDadosEditora] = useState<DadosEditoraType[]>([])
-
+  const [loading, setLoading] = useState(false)
 
   const getAllEditoras = async () =>{
+    setLoading(true)
     AxiosInstance.get(
       '/editoras',
       {headers: {"Authorization" : `Bearer ${dadosUsuario?.token}`}}
     ).then(resultado =>{
       console.log('Resultado: ' + JSON.stringify(resultado.data))
       setDadosEditora(resultado.data)
+      if(resultado.status === 200){
+        setLoading(false)
+      }
     }
     ).catch((error) =>{
       console.log('Ocorreu um erro ao recuperar o dados da editora: ' + JSON.stringify(error))
+      setLoading(false)
     })
   }
 
@@ -59,7 +61,7 @@ const HomeEditoras = ({navigation}) =>{
 
   const CardEditora = ({ item, navigation }) => {
     return(
-    <Card style={styles.cardLivro}>
+    <Card style={styles.cardEditora}>
       <Card.Title title={item.nomeEditora} />
       <TouchableOpacity onPress={()=> navigateToEditoraHome(item.codigoEditora)}>
       <Card.Cover source={{uri: item.urlImagem}} />
@@ -70,29 +72,25 @@ const HomeEditoras = ({navigation}) =>{
     );
   }
 
-  const renderItem = ({ item }) =>{
-    return(
-      <Item
-      item={item}
-      eventoPressionarBotao={() => navigateToEditoraHome(item.editora)}
-      />
-    )
-  }
-
-
-
   useEffect(() =>{
     getAllEditoras()
   },[])
 
     return(
     <SafeAreaView style={styles.container}>
+      {loading ? (
+        <ActivityIndicator
+        size="large"
+        color={"blue"}
+        animating={true}
+        style={styles.load}
+        />
+      ) : (
         <FlatList 
         data={dadosEditora}
         renderItem={CardEditora}
         keyExtractor={(item:any)=> item.codigoEditora}
-        
-        />
+        />)}
     </SafeAreaView>
     )
     
@@ -106,6 +104,13 @@ const styles = StyleSheet.create({
     marginBottom:StatusBar.currentHeight || 0
     
   },
+  load:{
+    marginTop: 100,
+    alignContent:'center',
+    display:'flex',
+    justifyContent:'flex-end'
+  },
+
   btnItem:{
     flexDirection:"column",
     alignItems:'center',
@@ -119,7 +124,7 @@ const styles = StyleSheet.create({
     width:100, 
     height:100,
   },
-  cardLivro: {
+  cardEditora: {
     marginHorizontal: 8,
     marginBottom:8,
     padding:10,

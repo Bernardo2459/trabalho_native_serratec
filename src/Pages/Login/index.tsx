@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState, } from 'react';
 import AxiosInstance from '../../Api/AxiosInstance';
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
   View,
@@ -13,7 +12,7 @@ import {
 
 import { styles } from './style';
 
-//Importando o DataContext
+
 import { DataContext } from '../../Context/DataContext';
 
 const Login =  ({navigation}) => {
