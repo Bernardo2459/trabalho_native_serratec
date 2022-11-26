@@ -6,6 +6,7 @@ import {
   StyleSheet,
   StatusBar,
   Image,
+  View,
   ActivityIndicator,
   ScrollView
 } from 'react-native';
@@ -123,12 +124,15 @@ const Home = ({navigation}) => {
     <Card style={styles.cardLivro}>
       <Card.Title title={item.nomeLivro} subtitle={item.editora.nomeEditora} />
       <TouchableOpacity onPress={() => navigateToHomeLivro(item.codigoLivro)}>
+      <View style={styles.imgCard}>
       <Card.Cover source={{uri: item.urlImagem}} style={styles.imgCard} />
+      </View>
       </TouchableOpacity>
       <Card.Actions style={{justifyContent:'center'}}>
         <Button onPress={() => addFavorite(item)}><Ionicons name='heart-circle' color='#000' size={36} /></Button>
         <Button onPress={() => addCart(item.codigoLivro)}><Ionicons name='cart' color='#000' size={36} /></Button>
       </Card.Actions>
+      
     </Card>
     );
   }
@@ -213,8 +217,16 @@ const styles = StyleSheet.create({
   },
   cardLivro: {
     marginHorizontal: 8,
-    // padding:10,
-    justifyContent:'center',
+    padding: 10,
+    justifyContent: 'center',
+    alignItems:'center',
+    margin: 20,
+    borderRadius: 5,
+    borderColor: '#fff',
+    borderWidth: 2,
+    elevation: 5,
+    shadowColor: '#000',
+    width: 250,
   },
   sectionTitle: {
     fontSize: 24,
@@ -240,9 +252,8 @@ const styles = StyleSheet.create({
     height:100,
   },
   imgCard:{
-    flex:3, 
-    width:200, 
     height:200,
+    resizeMode:'center'
   }
 });
 
