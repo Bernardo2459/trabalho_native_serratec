@@ -1,24 +1,13 @@
-import axios from 'axios';
 import React, { useContext, useEffect, useState, } from 'react';
 import AxiosInstance from '../../Api/AxiosInstance';
 import {
-  View,
-  ScrollView,
-  Text,
-  FlatList,
-  TextInput,
   StyleSheet,
-  StatusBar,
   SafeAreaView,
   ActivityIndicator,
-  Image,
-  TouchableOpacity,
 } from 'react-native';
-import { Card, Button, Title } from 'react-native-paper';
+import { Card, Button } from 'react-native-paper';
 import { DataContext } from '../../Context/DataContext';
 import { DadosLivroType } from '../../Models/DadosLivroType';
-import { Item } from 'react-native-paper/lib/typescript/components/List/List';
-import Ionicons from 'react-native-vector-icons/Ionicons'
 import { incrementLocalData } from '../../Service/StorageLocalService';
 
 const HomeLivro = ({route, navigation,}) =>{
@@ -27,9 +16,10 @@ const HomeLivro = ({route, navigation,}) =>{
     console.log(id)
     const {dadosUsuario} = useContext(DataContext)
     const[dadosLivro, setDadosLivro] = useState<DadosLivroType>()
-    const [loading,  setLoading] = useState(true)
+    const [loading,  setLoading] = useState(false)
 
     const getLivro = async () =>{
+        setLoading(true)
         AxiosInstance.get(
             `/livros/${id}`,
             {headers: {"Authorization" : `Bearer ${dadosUsuario?.token}`}}
@@ -64,12 +54,6 @@ const HomeLivro = ({route, navigation,}) =>{
    </Card>
     );
   }
-
-  const renderItem = () =>{
-    <View>
-        <Text> render </Text>
-    </View>
-  }
     return(
         <SafeAreaView>
            {loading ? (
@@ -88,12 +72,9 @@ const HomeLivro = ({route, navigation,}) =>{
             <Card style={styles.container} key={`livro.details${dadosLivro?.codigoLivro}`}>
                 <Card.Title title={dadosLivro?.nomeLivro} subtitle={dadosLivro?.dataLancamento} />
                 <Card.Cover source={{uri: dadosLivro?.urlImagem}} />
-                <Card.Content>
-                    <Text style={styles.descricao}>Melhor mangá</Text>
-                </Card.Content>
                 <Card.Actions>
                 <Button onPress={() => addFavorite(dadosLivro)}>Favoritar</Button>
-                <Button onPress={() => addCart(dadosLivro.codigoLivro)}>Comprar</Button>
+                <Button>Comprar</Button>
                 </Card.Actions>
             </Card>)}
         </SafeAreaView>

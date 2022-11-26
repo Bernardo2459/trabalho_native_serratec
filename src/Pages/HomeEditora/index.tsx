@@ -1,14 +1,9 @@
-import axios from 'axios';
 import React, { useContext, useEffect, useState, } from 'react';
 import AxiosInstance from '../../Api/AxiosInstance';
 import {
-  View,
-  ScrollView,
   Text,
   FlatList,
-  TextInput,
   StyleSheet,
-  StatusBar,
   SafeAreaView,
   Image,
   TouchableOpacity,
@@ -32,12 +27,7 @@ const Item = ({item}) =>{
 }
 
 const addFavorite = (livro:DadosLivroType) => {
-  //console.log(`Favoritos: Livro selecionado: ${JSON.stringify(livro)}`);
   incrementLocalData('favoritos', livro);
-}
-
-const addCart = (id:number) => {
-  console.log(`Carrinho: Livro selecionado: ${id}`);
 }
 
 const HomeEditora = ({route, navigation,}) =>{
@@ -49,7 +39,7 @@ const HomeEditora = ({route, navigation,}) =>{
     const [selectedId, setSelectedId] = useState(null)
     const [dadosEditora, setDadosEditora] = useState<DadosEditoraType>()
     const [dadosLivro, setDadosLivro] = useState<DadosLivroType[]>([])
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
 
     const navigateToHomeLivro = (id:any) =>{
       setSelectedId(id)
@@ -66,13 +56,14 @@ const HomeEditora = ({route, navigation,}) =>{
           </TouchableOpacity>
           <Card.Actions style={{justifyContent:'center'}}>
             <Button onPress={() => addFavorite(item)}><Ionicons name='heart-circle' color='#000' size={36} /></Button>
-            <Button onPress={() => addCart(item.codigoLivro)}><Ionicons name='cart' color='#000' size={36} /></Button> 
+            <Button ><Ionicons name='cart' color='#000' size={36} /></Button> 
           </Card.Actions>
         </Card>
         );
     }
 
     const getEditora = async () =>{
+      setLoading(true)
       AxiosInstance.get(
         `/editoras/${id}`,
         {headers: {"Authorization": `Bearer ${dadosUsuario?.token}`}}
@@ -87,6 +78,7 @@ const HomeEditora = ({route, navigation,}) =>{
       })
     }
     const getLivros = async () =>{
+      setLoading(true)
       AxiosInstance.get(
         `/livros/por-editora/${id}`,
         {headers: {"Authorization" : `Bearer ${dadosUsuario?.token}`}}
@@ -99,7 +91,6 @@ const HomeEditora = ({route, navigation,}) =>{
     }
 
     
-
   useEffect(() => {
     getLivros()
     getEditora()
@@ -107,22 +98,22 @@ const HomeEditora = ({route, navigation,}) =>{
 
     return(
     <SafeAreaView>
-      {loading ? (
+      {!loading ? (
+        <FlatList 
+        data={dadosLivro}
+        renderItem={CardLivro}
+        keyExtractor={(item, indicie)=> indicie}
+        extraData={setSelectedLivro}
+        />
+        
+      ): (
         <ActivityIndicator
         size="large"
         color={"blue"}
         animating={true}
-        style={{alignSelf:'center', 
-        justifyContent:'center', 
-        position:'absolute'}}
+        style={styles.load}
         />
-      ): (
-      <FlatList 
-      data={dadosLivro}
-      renderItem={CardLivro}
-      keyExtractor={(item, indicie)=> indicie}
-      extraData={setSelectedLivro}
-      />)}
+      )} 
     </SafeAreaView>
     )
     
@@ -133,6 +124,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     padding:10,
     justifyContent:'center',
+  },
+  load:{
+    marginTop: 100,
+    alignContent:'center',
+    display:'flex',
+    justifyContent:'flex-end'
   }
 })
 

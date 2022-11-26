@@ -1,20 +1,16 @@
-import axios from 'axios';
 import React, { useContext, useEffect, useState, } from 'react';
 import AxiosInstance from '../../Api/AxiosInstance';
 import {
-  View,
   Text,
   FlatList,
-  TextInput,
   StyleSheet,
   StatusBar,
   Image,
   SafeAreaView,
   TouchableOpacity,
   ActivityIndicator,
-  ScrollView
 } from 'react-native';
-import {  Card, Button, Title, Paragraph } from 'react-native-paper';
+import { Card } from 'react-native-paper';
 import { DadosEditoraType } from '../../Models/DadosEditoraType';
 import { DataContext } from '../../Context/DataContext';
 
@@ -37,9 +33,10 @@ const HomeEditoras = ({navigation}) =>{
   const [selectedId, setSelectedId] = useState(null)
   const {dadosUsuario} = useContext(DataContext)
   const [dadosEditora, setDadosEditora] = useState<DadosEditoraType[]>([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   const getAllEditoras = async () =>{
+    setLoading(true)
     AxiosInstance.get(
       '/editoras',
       {headers: {"Authorization" : `Bearer ${dadosUsuario?.token}`}}
@@ -64,7 +61,7 @@ const HomeEditoras = ({navigation}) =>{
 
   const CardEditora = ({ item, navigation }) => {
     return(
-    <Card style={styles.cardLivro}>
+    <Card style={styles.cardEditora}>
       <Card.Title title={item.nomeEditora} />
       <TouchableOpacity onPress={()=> navigateToEditoraHome(item.codigoEditora)}>
       <Card.Cover source={{uri: item.urlImagem}} />
@@ -74,17 +71,6 @@ const HomeEditoras = ({navigation}) =>{
     </Card>
     );
   }
-
-  const renderItem = ({ item }) =>{
-    return(
-      <Item
-      item={item}
-      eventoPressionarBotao={() => navigateToEditoraHome(item.editora)}
-      />
-    )
-  }
-
-
 
   useEffect(() =>{
     getAllEditoras()
@@ -97,9 +83,7 @@ const HomeEditoras = ({navigation}) =>{
         size="large"
         color={"blue"}
         animating={true}
-        style={{alignSelf:'center', 
-        justifyContent:'center', 
-        position:'absolute'}}
+        style={styles.load}
         />
       ) : (
         <FlatList 
@@ -120,6 +104,13 @@ const styles = StyleSheet.create({
     marginBottom:StatusBar.currentHeight || 0
     
   },
+  load:{
+    marginTop: 100,
+    alignContent:'center',
+    display:'flex',
+    justifyContent:'flex-end'
+  },
+
   btnItem:{
     flexDirection:"column",
     alignItems:'center',
@@ -133,7 +124,7 @@ const styles = StyleSheet.create({
     width:100, 
     height:100,
   },
-  cardLivro: {
+  cardEditora: {
     marginHorizontal: 8,
     marginBottom:8,
     padding:10,
